@@ -41,7 +41,6 @@ import java.util.concurrent.locks.Lock;
 import javax.net.ssl.SSLContext;
 
 import org.apache.hc.core5.concurrent.FutureCallback;
-import org.apache.hc.core5.function.Callback;
 import org.apache.hc.core5.http.ConnectionClosedException;
 import org.apache.hc.core5.io.CloseMode;
 import org.apache.hc.core5.net.NamedEndpoint;
@@ -212,22 +211,8 @@ final class InternalDataChannel extends InternalChannel implements ProtocolIOSes
                 sslBufferMode,
                 initializer,
                 verifier,
-                new Callback<SSLIOSession>() {
-
-                    @Override
-                    public void execute(final SSLIOSession sslSession) {
-                        onTLSSessionStart(sslSession);
-                    }
-
-                },
-                new Callback<SSLIOSession>() {
-
-                    @Override
-                    public void execute(final SSLIOSession sslSession) {
-                        onTLSSessionEnd();
-                    }
-
-                },
+                this::onTLSSessionStart,
+                sslSession -> onTLSSessionEnd(),
                 handshakeTimeout))) {
             if (sessionListener != null) {
                 sessionListener.startTls(this);

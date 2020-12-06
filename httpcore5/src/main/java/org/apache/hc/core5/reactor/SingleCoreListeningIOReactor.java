@@ -50,7 +50,7 @@ import org.apache.hc.core5.concurrent.FutureCallback;
 import org.apache.hc.core5.function.Callback;
 import org.apache.hc.core5.io.Closer;
 
-class SingleCoreListeningIOReactor extends AbstractSingleCoreIOReactor implements ConnectionListener, ConnectionAcceptor {
+class SingleCoreListeningIOReactor extends AbstractSingleCoreIOReactor implements ConnectionAcceptor {
 
     private final IOReactorConfig reactorConfig;
     private final Callback<ChannelEntry> callback;
